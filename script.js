@@ -1,36 +1,23 @@
-//your JS code here. If required.
-
 const buttons = document.querySelectorAll(".btn");
 
-// sound names (must match files inside /sounds folder)
-const sounds = ["applause", "boo", "gasp", "tada", "victory"];
+// Create ONE audio element (important for Cypress)
+const audio = document.createElement("audio");
+document.body.appendChild(audio);
 
-let currentAudio = null;
-
-// Play sound
 buttons.forEach(button => {
     button.addEventListener("click", () => {
 
-        const soundName = button.textContent;
+        const sound = button.textContent;
 
-        // Stop button logic
+        // STOP button
         if (button.classList.contains("stop")) {
-            if (currentAudio) {
-                currentAudio.pause();
-                currentAudio.currentTime = 0;
-            }
+            audio.pause();
+            audio.currentTime = 0;
             return;
         }
 
-        // Stop previous sound
-        if (currentAudio) {
-            currentAudio.pause();
-            currentAudio.currentTime = 0;
-        }
-
-        // Play new sound
-        const audio = new Audio(`sounds/${soundName}.mp3`);
-        currentAudio = audio;
+        // Set audio source and play
+        audio.src = `sounds/${sound}.mp3`;
         audio.play();
     });
 });
